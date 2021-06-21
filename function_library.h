@@ -90,7 +90,7 @@ double shift_factor(int Z1, int Z2, int A1, int A2, int L, double E, double r)//
 
   if(status!=0)printf("status = %s\n", gsl_strerror(status));
 
-  double result = x * (fc_array[0]*fcp_array[0]*exp(2*F_exp)+gc_array[0]*gcp_array[0]*exp(2*F_exp))/(pow(fc_array[0],2)*exp(2*F_exp)+pow(gc_array[0],2)*exp(2*G_exp));
+  double result = x * (fc_array[0]*fcp_array[0]*exp(2*F_exp)+gc_array[0]*gcp_array[0]*exp(2*G_exp))/(pow(fc_array[0],2)*exp(2*F_exp)+pow(gc_array[0],2)*exp(2*G_exp));
   return result;
 }
 
