@@ -13,6 +13,7 @@
 #include <cmath>
 #include <iostream>
 #include <complex>
+#include <TMath.h>
 
 //Code written by Philip Adsley (@padsley, padsley(at)gmail.com). Please feel free to use or modify. I cannot guarantee that this code is always correct and working. Use at your own risk. I assume no liability for your results. Please check that they make sense. This code is freely available under 2 conditions: that you make any modified version available to others and that you inform me if you find any errors in it. Thanks.
 
@@ -26,8 +27,10 @@ using namespace std;
 
 double mu_calc(double A1, double A2)//Calculate the reduced mass in amu
 {
-  double result = (double)A1*(double)A2/((double)A1+(double)A2);
-  return result;
+//   double result = (double)A1*(double)A2/((double)A1+(double)A2);
+//   return result;
+//     std::cout << "A1 = " << A1 << "\t A2 = " << A2 << "\t A1+A2 = " << A1+A2 << "\t A1*A2 = " << A1*A2 << std::endl;
+    return A1*A2/(A1+A2);
 }
 
 double penetrability(int Z1, int Z2, double A1, double A2, int L, double E, double r)//See equation 2.162 in Iliadis, for example
@@ -67,7 +70,7 @@ double Wigner_width(int Z1, int Z2, double A1, double A2, int L, double E, doubl
 {
 //   double result = 83.135/mu_calc(A1, A2) * penetrability(Z1, Z2, A1, A2, L, E, r);
   double result = 83.135/mu_calc(A1, A2) / pow(r,2.) * penetrability(Z1, Z2, A1, A2, L, E, r);
-  return result;
+  return result;//I think that this result is in MeV
 }
 
 double shift_factor(int Z1, int Z2, int A1, int A2, int L, double E, double r)//See equation 2.162 in Iliadis, for example

@@ -30,20 +30,39 @@ int main()
   cin >> L;
 
   double E = 0;
+  double SeparationEnergy = 0;
+  double EnergyStep = 0;
 
-  cout << "Enter projectile energy in MeV - I'm almost positive that this is the centre-of-mass value...: ";
+  cout << "Enter maximum energy in MeV - easiest to set this to be the max energy that you want and separation energy (next step) to 0: ";
   cin >> E;
+
+  cout << "Enter separation energy in MeV: ";
+  cin >> SeparationEnergy;
+
+  cout << "Enter energy step in MeV: ";
+  cin >> EnergyStep;
 
   double r = 5;
   cout << "Enter the channel radius in fm: ";
   cin >> r;
+
+  TGraph *g = new TGraph();
+  g->SetName("NeutronPenetrability");
+  int counter = 0;
+
   
-  double P = penetrability(Z1, Z2, A1, A2, L, E, r);
-  cout << "Penetrability: " << P << endl;
+  double Energy = SeparationEnergy+EnergyStep;
+  while(Energy<E)
+    {
+      double Gamma = Wigner_width(Z1, Z2, A1, A2, L, Energy-SeparationEnergy, r);
+      cout << "Energy: " << Energy - SeparationEnergy << "\t Wigner limit: " << Gamma*1000 << " keV" << endl;
 
-  double Gamma = Wigner_width(Z1, Z2, A1, A2, L, E, r);
-  cout << "Wigner limit: " << Gamma*1000*1000 << " eV" << endl;
+      g->SetPoint(counter,Energy,Gamma);
+      counter++;
+      Energy += EnergyStep;
+    }
 
-  double shift = shift_factor(Z1, Z2, A1, A2, L, E, r);
-  cout << "Phase shift: " << shift << endl;
+  TFile *fout = new TFile("WignerLimitGraph.root","RECREATE");
+  g->Write();
+  fout->Close();
 }
