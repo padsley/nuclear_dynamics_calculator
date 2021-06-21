@@ -2,7 +2,7 @@
 
 //Written by padsley@gmail.com E-mail if you have questions/comments/corrections. You should check the numbers coming out of here. No guarantee is provided that they're right.
 
-
+//to compile - this works on my Ubuntu system: g++ penetrability.cpp -o penetrability `root-config --cflags --libs` -lgsl -lgslcblas
 
 int main()
 {
