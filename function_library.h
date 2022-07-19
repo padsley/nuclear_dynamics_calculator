@@ -14,6 +14,7 @@
 #include <iostream>
 #include <complex>
 #include <TMath.h>
+#include <gsl/gsl_sf_hyperg.h>
 
 //Code written by Philip Adsley (@padsley, padsley(at)gmail.com). Please feel free to use or modify. I cannot guarantee that this code is always correct and working. Use at your own risk. I assume no liability for your results. Please check that they make sense. This code is freely available under 2 conditions: that you make any modified version available to others and that you inform me if you find any errors in it. Thanks.
 
@@ -172,4 +173,29 @@ complex<double> spherical_harmonic(double theta, double phi, int L, int m)
   }
   //cout << "result : " << result << endl;
   return result;
+}
+
+
+
+
+
+double whittaker_function(int z1, int z2, int redmass, int l, double radius, double energy)
+{
+  //function given by:
+  //W_k=exp(-z/2)z^{u+1/2}U(mu-k+1/2,1+2mu,z) U is kummer hypergeometric function, gsl_sf_hyperg_u
+  //returns the results of the whittaker function
+  const double hbarc=197.32696310;
+  const double uconv=931.4940880;
+  const double fstruc=1.00/137.0359996790;
+
+  const double k=-sqrt(uconv/2.)*fstruc*z1*z2*sqrt(redmass/energy);
+  const double m=l+0.5;
+  const double z=2.0*sqrt(2.0*uconv)/hbarc*radius*sqrt(redmass*energy);
+
+  const double a=m-k+0.5;
+  const double b=1.0+2.0*m;
+  
+  return exp(-z/2.0)*pow(z,m+0.50)*gsl_sf_hyperg_U(a,b,z);
+
+
 }
